@@ -1,0 +1,152 @@
+package calculadora;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class calculadora {
+	
+public boolean digito = false;
+public boolean sumar = false;
+public String digitouno = "";
+public String digitodos = "";
+public double resultado;
+
+	private JFrame frame;
+	private JTextField textField;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					calculadora window = new calculadora();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public calculadora() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 450, 300);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+	//HERE'S THE BUTTON "1"
+		JButton button = new JButton("1");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			//Whenever the boolean variable is false, the string digitouno accumulates the values of the button
+				if (digito == false) {			
+					digitouno += button.getText();
+					textField.setText(digitouno);
+				}
+			//Whenever the boolean variable is true, the string digitodos accumulates the values of the button
+				else {
+					digitodos += button.getText();
+					textField.setText(digitodos);
+				}
+				
+			}
+		});
+	//HERE'S THE BUTTON "2"
+		JButton button_1 = new JButton("2");
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if (digito == false) {
+					digitouno += button_1.getText();
+					textField.setText(digitouno);
+				}
+				else {
+					digitodos += button_1.getText();
+					textField.setText(digitodos);
+				}
+				
+			}
+		});
+	//HERE'S THE "+" BUTTON, it sets the digito variable to true so the values are added on the second variable and it
+	// sets the value of sumar (add) to true for whenever we press "=".
+		JButton button_2 = new JButton("+");
+		button_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				digito = true;
+				sumar = true;
+				
+			}
+		});
+	//HERE'S THE "=" BUTTON
+	//If the boolean sumar (add) is true, it parses both strings and adds them to a resultado double variable, then parses it to string 
+	//to show it.
+		JButton button_3 = new JButton("=");
+		button_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (sumar = true) {
+					Double digitounodouble = Double.parseDouble(digitouno);
+					Double digitodosdouble = Double.parseDouble(digitodos);
+					resultado = digitounodouble + digitodosdouble;
+					String resultadostring = String.valueOf(resultado);
+					textField.setText(resultadostring);
+				}
+			}
+		});
+		
+		
+		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(156)
+					.addComponent(textField, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(164, Short.MAX_VALUE))
+				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+					.addGap(28)
+					.addComponent(button)
+					.addGap(18)
+					.addComponent(button_1)
+					.addPreferredGap(ComponentPlacement.RELATED, 195, Short.MAX_VALUE)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(button_3)
+						.addComponent(button_2))
+					.addGap(26))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(19)
+					.addComponent(textField, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+					.addGap(32)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(button)
+						.addComponent(button_1)
+						.addComponent(button_2))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(button_3)
+					.addContainerGap(120, Short.MAX_VALUE))
+		);
+		frame.getContentPane().setLayout(groupLayout);
+	}
+}
